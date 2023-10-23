@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+usage() {
+    cat <<EOF
+Usage: $(basename "${BASH_SOURCE[0]}")
+    op is little wrapper for docker-compose.
+
+    -h | help               Display this help.
+    up | start              Start containers.
+    stop                    Stop containers.
+    down                    Stop and remove containers.
+    ps                      List running containers.
+    exec [container] bash   Exec shell inside container.
+EOF
+}
+
+dc() {
+    if [ -f .env ]; then
+        APP_ENV=$(grep -e '^APP_ENV' .env | cut -d '=' -f2)
+        DC="docker-compose -f docker-compose.yml -f docker-compose.$APP_ENV.yml "
+    else
+        DC="docker-compose -f docker-compose.yml "
+        ## echo 'Create .env file!'
+        ## exit 0
+    fi
+}
+
+while [[ $# -gt 0 ]]; do
+    param="$1"
+
+    case $param in
+        -h | help)
+            usage
+            exit
+            ;;
+        up | start)
+            dc
+            $DC up -d
+            exit
+            ;;
+        debug)
+            dc
+            $DC up
+            exit
+            ;;
+        *)
+            dc
+            ${DC} $@
+            exit
+            ;;
+    esac
+done
+
+usage
+exit

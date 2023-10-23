@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block body %}
+  <header>
+    <h1>{{ post.title }}</h1>
+    <p><small>
+      published at {{ post.publishedAt|date(datetime_format) }}
+      by {{ post.author.name ?? 'anonymous' }}<br>
+      comments {{ post.blogPostComments.count }}
+    </small></p>
+  </header>
+
+  <main>
+    <div class="back-link">
+      <a href="{{ path('app_blog_index') }}">Back to homepage</a>
+    </div>
+
+    {{ post.content|raw }}
+    <hr>
+
+    <h2>Comments ({{ post.blogPostComments.count }})</h2>
+
+    {% for comment in post.blogPostComments %}
+      <div class="comment">
+        <small>
+          commented at {{ comment.createdAt|date(datetime_format)}}
+          by {{ comment.email }}
+        </small>
+        <p>
+          {% if comment.isPublished %}
+            {{ comment.content|striptags }}
+          {% else %}
+            <p><i>Waiting for redaction...</i></p>
+          {% endif %}
+        </p>
+      </div>
+    {% endfor %}
+
+    <a href="{{ path('app_comment_new', {
+        'blogPostId': post.id
+      }) }}">Add new comment</a>
+
+    <div class="back-link">
+      <a href="{{ path('app_blog_index') }}">Back to homepage</a>
+    </div>
+
+  </main>
+{% endblock %}

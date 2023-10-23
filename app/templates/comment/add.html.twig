@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add new comment to {{ post.title }}{% endblock %}
+
+{% block body %}
+  <header>
+    <h1>Add new comment to "{{ post.title }}"</h1>
+  </header>
+
+  <main>
+    <div class="back-link">
+      <a href="{{ path('app_blog_post', {'blogPostId': post.id}) }}">Back to post</a>
+    </div>
+
+    {{ form(form) }}
+  </main>
+{% endblock %}

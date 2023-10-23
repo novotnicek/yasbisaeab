@@ -1,0 +1,39 @@
+version: "3.1"
+services:
+
+  app:
+    build: ./docker/images/php-fpm
+    volumes:
+      - ./docker/images/php-fpm/php-custom.ini:/usr/local/etc/php/conf.d/php-custom.ini
+      - ./app:/app
+    working_dir: /app
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./docker/nginx_templates:/etc/nginx/templates
+      - ./app:/app
+
+  mysql:
+    image: mysql:8.1
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    volumes:
+      - ./docker/mysql_data:/var/lib/mysql
+      - ./sqldump:/sqldump
+
+  adminer:
+    image: adminer:latest
+    environment:
+      - ADMINER_DEFAULT_SERVER=mysql
+    ports:
+      - 8080:8080
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - 1025:1025
+      - 8025:8025

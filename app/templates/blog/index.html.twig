@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}YasbiSaEAB{% endblock %}
+
+{% block body %}
+  <header>
+    <a href="{{ path('app_blog_index') }}" class="heading-link">
+      <h1>YasbiSaEAB</h1>
+    </a>
+    <p><small>
+        Yet another simple blog in Symfony
+        and Easy Admin Bundle
+    </small></p>
+  </header>
+
+  <main>
+  {% for post in posts %}
+    <article>
+      <a href="{{ path('app_blog_post', {'blogPostId': post.id}) }}">
+        <h2>{{ post.title }}</h2>
+      </a>
+      <small>
+        published at {{ post.publishedAt|date(datetime_format) }}
+        by {{ post.author.email ?? 'anonymous' }}<br>
+        comments: {{ post.blogPostComments.count }}
+      </small>
+      <p>{{ post.description|striptags }}<p>
+      {# or default twig htmlentities cenvert #}
+      {# <p>{{ post.description }}<p> #}
+      <a href="{{ path('app_blog_post', {'blogPostId': post.id}) }}">Read more</a>
+    </article>
+    <hr>
+  {% endfor %}
+
+  {% if paginator.totalPages > 1 %}
+    <a href="{{ path('app_blog_index') }}">Latest</a> /
+    {% if paginator.totalPages > 2 %}
+      {% for p in 2 .. (paginator.totalPages - 1) %}
+        <a href="{{ path('app_blog_archive', {'currentPage': p}) }}">{{ p }}</a> /
+      {% endfor %}
+    {% endif %}
+    <a href="{{ path('app_blog_archive', {'currentPage': (paginator.totalPages)}) }}">Oldest</a>
+  {% endif %}
+  </main>
+{% endblock %}

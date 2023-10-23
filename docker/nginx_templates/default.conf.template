@@ -1,0 +1,35 @@
+server {
+    listen 80;
+    server_name _;
+    resolver 127.0.0.11 ipv6=off;
+
+    root /app/public;
+    index index.php index.html;
+    error_page 404 /404.html;
+    fastcgi_intercept_errors on;
+    recursive_error_pages on;
+
+    client_max_body_size 100M;
+
+    # Block access to "hidden" files, e.g. .gitignore
+    location ~ (^|/)\. {
+        return 404;
+    }
+
+    # Block direct access to php files, we using only routing paths
+    location ~ \.php$ {
+        return 404;
+    }
+
+    location / {
+        try_files $uri @app;
+    }
+
+    location @app {
+        include /etc/nginx/fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root/index.php;
+        fastcgi_intercept_errors on;
+        set $appHost app:9000;
+        fastcgi_pass $appHost;
+    }
+}

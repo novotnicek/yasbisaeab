@@ -1,0 +1,59 @@
+.form-widget .form-control.flatpickr-input[readonly] {
+    background-color: var(--form-control-bg);
+    color: var(--form-input-text-color);
+}
+
+.ea-new .mt-4-5,
+.ea-edit .mt-4-5 {
+    margin-top: 2.5em;
+}
+
+@media screen and (max-width: 767px) {
+    .mt-4-5 {
+        margin-top: 0;
+    }
+}
+
+.trumbowyg-box,
+.trumbowyg-editor,
+.trumbowyg-textarea {
+    height: 400px;
+}
+
+.trumbowyg-box.trumbowyg-fullscreen,
+.trumbowyg-box.trumbowyg-fullscreen .trumbowyg-editor,
+.trumbowyg-box.trumbowyg-fullscreen .trumbowyg-textarea {
+    height: 100%;
+}
+
+.trumbowyg-textarea {
+    overflow: scroll !important;
+}
+
+.text-success {
+    color: rgb(25, 135, 84);
+}
+
+.text-danger {
+    color: rgb(220, 53, 69);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+.confirm-box {
+    position: absolute;
+    width: 40%;
+    top: 5%;
+    left: 30%;
+    text-align: center;
+    background: white;
+    padding: 15px;
+}

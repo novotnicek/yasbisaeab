@@ -1,0 +1,16 @@
+<div class="overlay" id="overlay" hidden>
+    <div class="confirm-box">
+        <div data-controller="confirm" data-action="click->confirm#closeConfirmBox"
+            class="close" style="float: right; cursor: pointer;">&#10006;</div>
+        <h2>{{ 'common.confirmation'|trans }}</h2>
+        <p id="confirmationQuestion">???</p>
+        <button class="btn-primary btn" id="confirmationSubmit" data-href="#"
+            data-controller="confirm" data-action="click->confirm#isConfirm" data-bool="true">
+            {{ 'common.yes'|trans }}
+        </button>
+        <button class="btn-secondary btn"
+            data-controller="confirm" data-action="click->confirm#isConfirm" data-bool="false">
+            {{ 'common.no'|trans }}
+        </button>
+    </div>
+</div>
